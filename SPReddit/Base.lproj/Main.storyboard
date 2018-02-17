@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="faQ-IX-1Qw">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Avenir.ttc">
+            <string>Avenir-Book</string>
+            <string>Avenir-Heavy</string>
+            <string>Avenir-Medium</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Table View Controller-->
+        <scene sceneID="ONl-v0-Rg6">
+            <objects>
+                <tableViewController id="faQ-IX-1Qw" customClass="SPTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="28" id="h4j-RM-eST">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.41960784309999999" green="0.72549019609999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="separatorColor" red="0.90588235289999997" green="0.29803921570000003" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SPIdentifier" rowHeight="111" id="EkK-dZ-lpp" customClass="SPTableViewCell">
+                                <rect key="frame" x="0.0" y="28" width="375" height="111"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EkK-dZ-lpp" id="d3d-dV-OE3">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="110.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="This is the content label. Where" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="314" translatesAutoresizingMaskIntoConstraints="NO" id="UMh-bF-HHQ">
+                                            <rect key="frame" x="99" y="20" width="235" height="21"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="submitted 3 hours ago by John" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="icw-Ev-WCq">
+                                            <rect key="frame" x="99" y="49" width="248" height="24"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="13"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="44z-MI-T5i">
+                                            <rect key="frame" x="14" y="24" width="76" height="76"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="76" id="mcd-rV-SP2"/>
+                                                <constraint firstAttribute="height" constant="76" id="tlv-6o-1HU"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="3 comments" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="560" translatesAutoresizingMaskIntoConstraints="NO" id="SIc-4M-xx5">
+                                            <rect key="frame" x="99" y="77" width="248" height="21"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="SIc-4M-xx5" secondAttribute="bottom" constant="12.5" id="9hi-FA-pYa"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UMh-bF-HHQ" secondAttribute="trailing" constant="20" id="BvP-TN-a2C"/>
+                                        <constraint firstItem="SIc-4M-xx5" firstAttribute="top" secondItem="icw-Ev-WCq" secondAttribute="bottom" constant="7" id="Cci-4E-SDa"/>
+                                        <constraint firstItem="UMh-bF-HHQ" firstAttribute="top" secondItem="d3d-dV-OE3" secondAttribute="top" constant="20" id="Eji-Dl-GGT"/>
+                                        <constraint firstItem="icw-Ev-WCq" firstAttribute="leading" secondItem="UMh-bF-HHQ" secondAttribute="leading" id="Gkj-YW-yyJ"/>
+                                        <constraint firstItem="icw-Ev-WCq" firstAttribute="top" secondItem="UMh-bF-HHQ" secondAttribute="bottom" constant="8" id="NI6-2L-bGT"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="icw-Ev-WCq" secondAttribute="trailing" constant="12" id="RfA-N8-Pr3"/>
+                                        <constraint firstItem="44z-MI-T5i" firstAttribute="top" secondItem="d3d-dV-OE3" secondAttribute="top" constant="24" id="TEa-PU-IaS"/>
+                                        <constraint firstItem="44z-MI-T5i" firstAttribute="leading" secondItem="d3d-dV-OE3" secondAttribute="leading" constant="14" id="Z7t-ZO-Tmx"/>
+                                        <constraint firstItem="UMh-bF-HHQ" firstAttribute="leading" secondItem="44z-MI-T5i" secondAttribute="trailing" constant="9" id="aaI-5U-HK3"/>
+                                        <constraint firstItem="SIc-4M-xx5" firstAttribute="leading" secondItem="UMh-bF-HHQ" secondAttribute="leading" id="cYH-g3-WCs"/>
+                                        <constraint firstAttribute="trailing" secondItem="SIc-4M-xx5" secondAttribute="trailing" constant="28" id="wQd-Xf-rHA"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="commentsLabel" destination="SIc-4M-xx5" id="PNK-5A-qfW"/>
+                                    <outlet property="contentLabel" destination="UMh-bF-HHQ" id="gT1-Oj-dNp"/>
+                                    <outlet property="profileImageView" destination="44z-MI-T5i" id="HvZ-cp-m3S"/>
+                                    <outlet property="secondaryLabel" destination="icw-Ev-WCq" id="UC0-Yn-OlX"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="faQ-IX-1Qw" id="VZF-53-pak"/>
+                            <outlet property="delegate" destination="faQ-IX-1Qw" id="Pbj-dt-7s2"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xU8-c4-M2P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-23.199999999999999" y="125.4872563718141"/>
+        </scene>
+    </scenes>
+</document>
