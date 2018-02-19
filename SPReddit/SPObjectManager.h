@@ -13,7 +13,12 @@
 
 + (id)sharedManager;
 
+// gets the first 25 posts from reddit.com/top
 - (void)fetchDataWithCallback:(void (^)(NSArray *, NSError *))aCallback;
+
+// gets the next 5 posts after an image Id
+- (void)fetchDataWithCallback:(void (^)(NSArray *, NSError *))aCallback afterId:(NSString *)name;
+
 
 
 @end

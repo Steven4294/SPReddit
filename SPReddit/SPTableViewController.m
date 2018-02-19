@@ -13,6 +13,8 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/UIView+WebCache.h>
 #import "IDMPhotoBrowser.h"
+#import <UIScrollView-InfiniteScroll/UIScrollView+InfiniteScroll.h>
+
 
 @interface SPTableViewController ()
 
@@ -38,40 +40,81 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     [self.tableView layoutSubviews];
+    
     self.redditPosts = [[NSMutableArray alloc] init];
     // fetch the data
     SPObjectManager *sharedManager = [SPObjectManager sharedManager];
     [sharedManager fetchDataWithCallback:^(NSArray *data, NSError *err) {
         if (err == nil) {
-            self.redditPosts = [data mutableCopy];
+            [self recievedData:data];
             
-            NSMutableArray *urls = [[NSMutableArray alloc] init];
-            for (SPRedditPost *post in self.redditPosts) {
-                NSString *suffix = [post.url substringFromIndex: [post.url length] - 3] ;
-                
-                if ([suffix isEqualToString:@"jpg"] || [suffix isEqualToString:@"png"]) {
-                    [urls addObject:post.url];
-                }else{
-                    [urls addObject:post.thumbnailUrl];
-                }
-            }
-            
-            self.photos = [[IDMPhoto photosWithURLs:urls] mutableCopy];
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
-            });
         }
         else{
             NSLog(@"error fetching data: %@", err);
         }
     }];
+    
+    // setup infinite scroll
+    __weak SPTableViewController *welf = self; // this avoids a retain cycle
+
+    [self.tableView addInfiniteScrollWithHandler:^(UITableView* tableView) {
+        // update table view
+
+        SPRedditPost *lastPost = [welf.redditPosts lastObject];
+        
+        [sharedManager fetchDataWithCallback:^(NSArray *data, NSError *err) {
+
+            if (err == nil) {
+                [welf appendData:data toTable:tableView];
+            }
+            else{
+                NSLog(@"error fetching data: %@", err);
+            }
+            
+            // finish infinite scroll animation
+        } afterId:lastPost.name];
+    }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)appendData:(NSArray *)data toTable:(UITableView *)tableView{
+    [self.redditPosts addObjectsFromArray:data];
+    
+    NSArray *newPhotos = [[IDMPhoto photosWithURLs:[self urlsFromPosts:data]] mutableCopy];
+    [self.photos addObjectsFromArray:newPhotos];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [tableView finishInfiniteScroll];
+        [tableView reloadData];
+    });
+    
 }
+
+
+- (void)recievedData:(NSArray *)data{
+
+    self.redditPosts = [data mutableCopy];
+    
+    self.photos = [[IDMPhoto photosWithURLs:[self urlsFromPosts:self.redditPosts]] mutableCopy];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
+
+- (NSArray *)urlsFromPosts:(NSArray *)posts{
+    NSMutableArray *urls = [[NSMutableArray alloc] init];
+    for (SPRedditPost *post in posts) {
+        NSString *suffix = [post.url substringFromIndex: [post.url length] - 3] ;
+        
+        if ([suffix isEqualToString:@"jpg"] || [suffix isEqualToString:@"png"]) {
+            [urls addObject:post.url];
+        }else{
+            [urls addObject:post.thumbnailUrl];
+        }
+    }
+    return urls;
+}
+
 
 #pragma mark - Table view data source
 
@@ -104,8 +147,8 @@
 
     NSString *elapsed = [formatter stringFromDate:[NSDate date] toDate:[NSDate dateWithTimeIntervalSinceNow:post.secondsAgo] ];
 
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"by %@ %@ ago", post.name, elapsed]];
-    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:60.0/255.0f green:64/255.0f blue:198.0f/255.0f alpha:1.0f] range:NSMakeRange(3,post.name.length)];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"by %@ %@ ago", post.author, elapsed]];
+    [attrString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:60.0/255.0f green:64/255.0f blue:198.0f/255.0f alpha:1.0f] range:NSMakeRange(3,post.author.length)];
     cell.secondaryLabel.attributedText = attrString;
 
     [cell.profileImageView sd_setShowActivityIndicatorView:YES];
@@ -119,7 +162,6 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-   
     IDMPhoto *photo = [self.photos objectAtIndex:indexPath.row];
     if (([photo.photoURL.absoluteString isEqualToString:@"default"] == false) && ([photo.photoURL.absoluteString isEqualToString:@"self"] == false)) {
         NSLog(@"photo url %@", photo.photoURL);
@@ -128,6 +170,8 @@
     }
     
 }
+
+// this is for the variable height tableview cell
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     return UITableViewAutomaticDimension;

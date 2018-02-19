@@ -21,23 +21,40 @@
     return sharedMyManager;
 }
 
+
 - (void)fetchDataWithCallback:(void (^)(NSArray *, NSError *))aCallback{
     
-    // making a GET request to /init
-    NSString *targetUrl = [NSString stringWithFormat:@"https://www.reddit.com/top/.json?count=50"];
+    NSString *targetUrl = [NSString stringWithFormat:@"https://www.reddit.com/top/.json?limit=25"];
+    
+    [self makeApiCall:^(NSArray *data, NSError *err) {
+        aCallback(data, err);
+    } forUrl:targetUrl];
+    
+}
+
+- (void)fetchDataWithCallback:(void (^)(NSArray *, NSError *))aCallback afterId:(NSString *)name{
+    
+    NSString *targetUrl = [NSString stringWithFormat:@"https://www.reddit.com/top/.json?limit=5&after=%@",name];
+    
+    [self makeApiCall:^(NSArray *data, NSError *err) {
+        aCallback(data, err);
+    } forUrl:targetUrl];
+}
+
+// this where the magic happens
+- (void)makeApiCall:(void (^)(NSArray *, NSError *))aCallback forUrl:(NSString *)url{
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setHTTPMethod:@"GET"];
-    [request setURL:[NSURL URLWithString:targetUrl]];
+    [request setURL:[NSURL URLWithString:url]];
     
-    
-    // parsing blocks
+    // handle the parsed response
     SBJson5ValueBlock block = ^(id v, BOOL *stop) {
         if ([v isKindOfClass:[NSMutableDictionary class]]) {
-
+            
             NSArray *payload  = v[@"data"][@"children"];
             
             NSMutableArray *posts = [[NSMutableArray alloc] init];
-
+            
             for (id object in payload) {
                 
                 CGFloat createdAt = [object[@"data"][@"created_utc"] floatValue];
@@ -45,18 +62,18 @@
                 CGFloat nowEpochSeconds = [now timeIntervalSince1970];
                 CGFloat secondsAgo = nowEpochSeconds -  createdAt;
                 
+                SPRedditPost *post = [[SPRedditPost alloc] initWithAuthor:object[@"data"][@"author"]
+                                                          andThumbnailUrl:object[@"data"][@"thumbnail"]
+                                                                   andUrl:object[@"data"][@"url"]
+                                                              andComments:[object[@"data"][@"num_comments"] intValue]
+                                                               andContent:object[@"data"][@"title"]
+                                                            andSecondsAgo:secondsAgo
+                                                                  andName:object[@"data"][@"name"]];
                 
-                SPRedditPost *post = [[SPRedditPost alloc] initWithName:object[@"data"][@"author"]
-                                                        andThumbnailUrl:object[@"data"][@"thumbnail"]
-                                                                 andUrl:object[@"data"][@"url"]
-                                                            andComments:[object[@"data"][@"num_comments"] intValue]
-                                                             andContent:object[@"data"][@"title"]
-                                                          andSecondsAgo:secondsAgo];
-
-
+                
                 [posts addObject:post];
             }
-        
+            
             aCallback([posts copy], nil); //copy creates an immutable version (since we want an NSArray and not an NSMutableArray)
             
         }
@@ -67,7 +84,7 @@
     };
     
     
-    // create a url request
+    // create a url request and parse it into objective c objects
     [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:
       ^(NSData * _Nullable data,
         NSURLResponse * _Nullable response,
@@ -80,7 +97,7 @@
           [parser parse:data];
           
       }] resume];
-    
-}
+};
+
 
 @end

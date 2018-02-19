@@ -10,12 +10,13 @@
 
 @implementation SPRedditPost
 
-- (instancetype)initWithName:(NSString *)name andThumbnailUrl:(NSString *)thumbnailUrl andUrl:(NSString *)url andComments:(int)comments andContent:(NSString *)content andSecondsAgo:(float)seconds;
+- (instancetype)initWithAuthor:(NSString *)author andThumbnailUrl:(NSString *)thumbnailUrl andUrl:(NSString *)url andComments:(int)comments andContent:(NSString *)content andSecondsAgo:(float)seconds andName:(NSString *)name;
 {
     self = [super init];
     if (self != nil)
     {
         // Further initialization if needed
+        _author = author;
         _name = name;
         _thumbnailUrl = thumbnailUrl;
         _url = url;

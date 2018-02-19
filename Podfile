@@ -10,6 +10,7 @@ target 'SPReddit' do
   pod 'SDWebImage', '~> 4.0'
   pod 'SDWebImage/GIF'
   pod 'IDMPhotoBrowser'
+  pod 'UIScrollView-InfiniteScroll', '~> 1.0.0'
 
   target 'SPRedditTests' do
     inherit! :search_paths

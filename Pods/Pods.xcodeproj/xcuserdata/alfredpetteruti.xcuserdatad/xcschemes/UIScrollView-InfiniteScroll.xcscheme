@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'BDCC0C5BDEB5DBDED12904B8FBD5E2A3'
-               BlueprintName = 'SBJson5'
+               BlueprintIdentifier = 'E44151DED41CB718E57895A5B1A31050'
+               BlueprintName = 'UIScrollView-InfiniteScroll'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libSBJson5.a'>
+               BuildableName = 'libUIScrollView-InfiniteScroll.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
