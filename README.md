@@ -17,5 +17,5 @@ SPReddit loads the top 25 posts from api.reddit and displays their: comments, da
 [Infinite Scroll](https://github.com/pronebird/UIScrollView-InfiniteScroll) is a library which provides the UI for infinite scrolling (i.e. pagination support).
 
 
-![Alt text](screenshot1.png)
+![Demo GIF](reddit_vid.gif)
 
